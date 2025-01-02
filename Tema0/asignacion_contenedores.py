@@ -17,7 +17,6 @@ def suma (reparto, numCamion):
     print("Inicio:", inicio)
     fin = numCamion*m
     print("Fin:", fin)
-
     
     for i in range(inicio, fin):
         if reparto[i] == 1:
@@ -27,6 +26,7 @@ def suma (reparto, numCamion):
 
 def contenedoresNoRepetidos(reparto):
     for i in range(k):
+        print(reparto[i-m*(numCamion-1)])
         if reparto[i-m*(numCamion-1)] == 1:
             return False
     return True
@@ -38,7 +38,8 @@ numCamion = 1
 while not finished:
     print("Camion:", numCamion)
     for i in range(len(repartoFinal)):
-        if suma(repartoFinal, numCamion) < sum(w)/k and not contenedoresNoRepetidos(repartoFinal):
+        if suma(repartoFinal, numCamion) < sum(w)/k and contenedoresNoRepetidos(repartoFinal):
+            print("i", i)
             repartoFinal[i] = 1
             #print("Reparto:", repartoFinal)
         else:
@@ -50,4 +51,5 @@ while not finished:
 
 
 print("Reparto final:", repartoFinal)
-
+for i, value in enumerate(repartoFinal):
+    print("Posición:", i, "con el valor", value)
