@@ -57,26 +57,30 @@ def lexicographic_next_permutation(a):
 def brute_force(instance, permutation):
     best_sol = None
     best_value = float('inf')
+    steps = 0
     for _ in range(math.factorial(instance[0])):
         value = objective_function(permutation, instance)
         if value < best_value:
             best_value = value
             best_sol = permutation[:]
         lexicographic_next_permutation(permutation) 
-    return (best_sol,best_value)
+        steps += 1
+    return (best_sol,best_value, steps)
 
 #RANDOM SEARCH
 def random_search(instance, max_evaluations):
     size=instance[0]
     best_solution=np.random.permutation(size)
     best_value=objective_function(best_solution, instance)
+    steps = 0
     for _ in range(max_evaluations):
         candidate_solution=np.random.permutation(size)
         candidate_value=objective_function(candidate_solution, instance)
         if candidate_value<best_value:
             best_value=candidate_value
             best_solution=candidate_solution
-    return (best_solution,best_value)
+        steps += 1
+    return (best_solution,best_value, steps)
 
 
 if __name__ == "__main__":
@@ -105,7 +109,7 @@ if __name__ == "__main__":
         print("Algoritmo Brute Force\n")
         start = tm.time()
         permutation = list(next(itertools.permutations(range(instance[0]))))
-        (bestFitness, bestSol) = brute_force(instance, permutation)
+        (bestSol, bestFitness, steps) = brute_force(instance, permutation)
         end=tm.time()
     else:
         if algoritmo == 2:
@@ -118,8 +122,9 @@ if __name__ == "__main__":
             print("Algoritmo Random Search con 1000 evaluaciones\n")
             max_evaluations = 1000
         start = tm.time()
-        (bestFitness,bestSol) = random_search(instance,max_evaluations)
+        (bestSol, bestFitness, steps) = random_search(instance,max_evaluations)
         end=tm.time()
     
     print("Best fitness: {} Solution {}".format(bestFitness, bestSol))
     print("Execution time: {}".format(end-start))
+    print("Steps: {}".format(steps))
